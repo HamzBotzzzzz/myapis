@@ -1,31 +1,35 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const multer = require('multer');
+const path = require('path');
 const fs = require('fs');
-const { LowSync } = require('lowdb');
-const { JSONFileSync } = require('lowdb/node');
 const axios = require('axios');
+const { fileTypeFromFile } = require('file-type');
+
+const uploadDir = '/tmp/uploads';
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, 'temp_uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+  destination(req, file, cb) {
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
+    cb(null, uploadDir);
+  },
+  filename(req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 
 const upload = multer({
-    storage: storage,
-    limits: { fileSize: 200 * 1024 * 1024 },
-    fileFilter: function (req, file, cb) { cb(null, true); }
+  storage,
+  limits: { fileSize: 20 * 1024 * 1024 }
 });
+
+async function validateFile(filePath) {
+  const type = await fileTypeFromFile(filePath);
+  if (!type) return false;
+  return ['image/jpeg', 'image/png', 'image/webp'].includes(type.mime);
+}
 
 function formatFileSize(bytes) {
     if (bytes === 0) return '0 Bytes';
@@ -52,13 +56,6 @@ app.use(express.static(path.join(__dirname, '')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-const adapter = new JSONFileSync('db.json');
-const db = new LowSync(adapter, {});
-
-db.read();
-db.data ||= {};
-db.write();
 
 // Middleware untuk statistik sederhana
 app.use((req, res, next) => {
