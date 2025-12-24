@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodSpike API</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/upload-file-lab/fileupload6/main/uploads/1759330984218.jpeg?format=png&name=900x900">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen antialiased">
+    <div id="loadingOverlay" class="loading-overlay items-center justify-center">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-muted font-semibold">Processing...</p>
+        </div>
+    </div>
+
+    <div id="notificationToast" class="notification-toast fixed top-5 right-5 p-4 rounded-xl shadow-lg transform translate-x-full">
+        <div class="flex items-center gap-3">
+            <svg id="toastIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span id="toastMessage" class="font-medium text-sm">Action completed</span>
+        </div>
+    </div>
+
+    <div class="theme-switch fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xl" id="themeToggle">
+        <span id="themeIcon" class="text-xl">🌙</span>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-10">
+        <header class="mb-10 text-center">
+            <div class="mb-6">
+                <img 
+                    id="dynamicAvatar" 
+                    src="https://files.catbox.moe/b37poz.jpg" 
+                    alt="API Logo" 
+                    class="w-24 h-24 mx-auto rounded-full object-cover mb-4 shadow-2xl border-2 border-gray-700"
+                >
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black gradient-text mb-2 tracking-tight">Bloodspike API</h1>
+            <p class="text-md text-muted font-light tracking-wide">Structured and easy-to-use API endpoints.</p>
+        </header>
+
+        <div class="stats-grid mb-8">
+            <div class="stat-card">
+                <div class="text-sm text-muted mb-2">Total Endpoints</div>
+                <div class="stat-value" id="totalEndpoints">0</div>
+                <div class="text-xs text-muted mt-2">Available for use</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-sm text-muted mb-2">Active Status</div>
+                <div class="stat-value" id="activeEndpoints">0</div>
+                <div class="text-xs text-muted mt-2">Ready to execute</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-sm text-muted mb-2">Response Time</div>
+                <div class="stat-value">< 2s</div>
+                <div class="text-xs text-muted mt-2">Average latency</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-sm text-muted mb-2">Uptime</div>
+                <div class="stat-value">99.9%</div>
+                <div class="text-xs text-muted mt-2">Service reliability</div>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search endpoints by name, path, or description..."
+                    class="search-input w-full px-5 py-3 text-sm border rounded-xl placeholder-muted focus:outline-none transition-all code-font"
+                >
+                <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div id="noResultsMessage" class="text-center py-16 hidden api-card rounded-xl">
+            <div class="p-8">
+                <div class="feature-icon mx-auto mb-4">
+                    <svg class="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-muted mb-1">No endpoints found</h3>
+                <p class="text-sm text-muted mb-4">Try a different search term or browse all categories</p>
+                <button onclick="document.getElementById('searchInput').value = ''; handleSearch();" class="btn-secondary px-4 py-2 rounded-lg text-sm">
+                    Clear Search
+                </button>
+            </div>
+        </div>
+
+        <div id="apiListContainer" class="space-y-6"></div>
+
+        <footer class="mt-16 pt-8 border-t border-gray-800 text-center text-muted text-sm">
+            <section class="mb-4">
+                <h2 class="text-sm font-bold gradient-text mb-2">Source Code</h2>
+                <div class="flex justify-center">
+                    <a href="https://github.com/iyayn-ajah/simple-base-api" target="_blank" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 text-xs font-semibold transition-colors border border-gray-700">
+                        GITHUB REPOSITORY
+                    </a>
+                </div>
+            </section>
+            <p>© 2025 Ilhamm | <span class="code-font">${BASE_URL}</span></p>
+            <p class="mt-2 text-xs opacity-70">Your IP: <span id="footerIp" class="code-font">Loading...</span></p>
+        </footer>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
