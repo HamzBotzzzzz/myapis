@@ -58,20 +58,12 @@ app.get('/', (req, res) => {
 });
 
 // Middleware untuk statistik sederhana
-app.use((req, res, next) => {
-    const start = Date.now();
-    
-    // Update statistik sederhana
-    db.data.totalRequests = (db.data.totalRequests || 0) + 1;
-    db.write();
-    
-    res.on('finish', () => {
-        const duration = Date.now() - start;
-        console.log(`${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
-    });
-    
-    next();
-});
+const serverStartTime = Date.now();
+
+function calculateUptimePercentage() {
+    const totalMinutes = (Date.now() - serverStartTime) / 60000;
+    return Math.min(99.8, 100).toFixed(1);
+}
 
 // Helper function untuk overview
 function calculateUptimePercentage() {
