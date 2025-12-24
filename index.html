@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodSpike API</title>
+    <meta name="description" content="BloodSpike API - Fast, Reliable & Minimalist API by ilham">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --bg-primary: #0a0a0f;
+        --bg-secondary: #121218;
+        --bg-card: #1a1a24;
+        --accent-primary: #0095f6;
+        --accent-secondary: #32CD32;
+        --text-primary: #f0f0f0;
+        --text-secondary: #a0aec0;
+        --border-color: #2a2a3a;
+        --shadow-soft: rgba(0, 0, 0, 0.1);
+        --shadow-medium: rgba(0, 0, 0, 0.2);
+        --shadow-hard: rgba(0, 0, 0, 0.3);
+        --card-gradient: linear-gradient(145deg, #1a1a24, #15151e);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary);
+        font-family: 'Inter', 'Ubuntu Mono', system-ui, -apple-system, sans-serif;
+        min-height: 100vh;
+        transition: padding-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        overflow-x: hidden;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(0, 149, 246, 0.05) 0%, transparent 20%),
+            radial-gradient(circle at 90% 80%, rgba(50, 205, 50, 0.05) 0%, transparent 20%);
+        will-change: padding-left;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: var(--bg-secondary);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        will-change: transform;
+    }
+
+    .toggle-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        margin-right: 20px;
+        color: var(--text-primary);
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+        transform: scale(1.1);
+        color: var(--accent-primary);
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100%;
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        padding: 60px 20px 20px 20px;
+        z-index: 999;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        transform: translate3d(-100%, 0, 0);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
+        box-shadow: 5px 0 25px var(--shadow-hard);
+    }
+
+    .brand {
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 32px;
+        color: var(--accent-primary);
+        font-family: 'Inter', sans-serif;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.4s ease 0.1s;
+        will-change: transform, opacity;
+    }
+
+    .sidebar.show .brand {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .sidebar nav a {
+        display: block;
+        padding: 12px 10px;
+        margin-bottom: 8px;
+        text-decoration: none;
+        color: var(--text-secondary);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-family: 'Ubuntu Mono', monospace;
+        font-size: 0.95rem;
+        opacity: 0;
+        transform: translateX(-20px);
+        border: 1px solid transparent;
+        will-change: transform, opacity, background-color;
+    }
+
+    .sidebar.show nav a {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .sidebar nav a:nth-child(1) { transition-delay: 0.15s; }
+    .sidebar nav a:nth-child(2) { transition-delay: 0.2s; }
+
+    .sidebar nav a:hover {
+        background: var(--bg-card);
+        transform: translateX(5px);
+        color: var(--text-primary);
+        border-color: var(--accent-primary);
+    }
+
+    .sidebar nav a.active {
+        background: var(--accent-primary);
+        color: white;
+        border-color: var(--accent-primary);
+    }
+
+    .content {
+        margin-top: 60px;
+        padding: 20px;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+        -webkit-transform: translateZ(0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    body.sidebar-open .content {
+        transform: translateX(220px);
+        transform: translate3d(220px, 0, 0);
+    }
+
+    body.sidebar-open header {
+        transform: translateX(220px);
+        transform: translate3d(220px, 0, 0);
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        will-change: opacity;
+        pointer-events: none;
+    }
+
+    .overlay.show {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+
+    .about-content {
+        max-width: 500px;
+        margin: 60px auto 0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .profile-card {
+        background: var(--card-gradient);
+        border-radius: 24px;
+        overflow: hidden;
+        padding: 2px;
+        position: relative;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        animation: cardFloat 6s ease-in-out infinite;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        will-change: transform, box-shadow;
+    }
+
+    .profile-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, 
+            transparent 0%, 
+            rgba(0, 149, 246, 0.1) 25%, 
+            rgba(50, 205, 50, 0.1) 50%, 
+            rgba(0, 149, 246, 0.1) 75%, 
+            transparent 100%);
+        z-index: -1;
+        animation: gradientShift 8s linear infinite;
+        border-radius: 24px;
+        will-change: background-position;
+    }
+
+    .profile-card::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(45deg, 
+            var(--accent-primary), 
+            var(--accent-secondary), 
+            var(--accent-primary));
+        z-index: -2;
+        filter: blur(20px);
+        opacity: 0.3;
+        border-radius: 26px;
+        animation: glowPulse 4s ease-in-out infinite;
+        will-change: opacity;
+    }
+
+    @keyframes cardFloat {
+        0%, 100% { 
+            transform: translateY(0px) rotateX(0.5deg) rotateY(0.5deg);
+            box-shadow: 
+                0 10px 30px var(--shadow-hard),
+                0 0 50px rgba(0, 149, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        50% { 
+            transform: translateY(-10px) rotateX(-0.5deg) rotateY(-0.5deg);
+            box-shadow: 
+                0 20px 50px var(--shadow-hard),
+                0 0 80px rgba(50, 205, 50, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    @keyframes glowPulse {
+        0%, 100% { opacity: 0.2; }
+        50% { opacity: 0.4; }
+    }
+
+    .profile-info {
+        padding: 40px 30px 30px;
+        background: var(--bg-card);
+        border-radius: 22px;
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .avatar-frame {
+        display: inline-block;
+        border-radius: 50%;
+        padding: 3px;
+        margin-bottom: 24px;
+        position: relative;
+        background: rgba(50, 205, 50, 0.3);
+        animation: frameBreathe 5s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(50, 205, 50, 0.3));
+        will-change: transform, background;
+    }
+
+    .avatar-frame::before {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border: 2px solid var(--accent-secondary);
+        border-radius: 50%;
+        animation: ringBreathe 5s ease-in-out infinite;
+        will-change: transform, opacity;
+    }
+
+    @keyframes frameBreathe {
+        0%, 100% { 
+            background: rgba(50, 205, 50, 0.3);
+            transform: scale(1);
+        }
+        50% { 
+            background: rgba(50, 205, 50, 0.1);
+            transform: scale(1.05);
+        }
+    }
+
+    @keyframes ringBreathe {
+        0%, 100% { 
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% { 
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--bg-card);
+        background: var(--bg-secondary);
+        transition: transform 0.5s ease;
+        will-change: transform;
+    }
+
+    .avatar:hover {
+        transform: rotateY(180deg);
+    }
+
+    .display-name {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        font-family: 'Inter', sans-serif;
+        text-shadow: 0 2px 4px var(--shadow-hard);
+    }
+
+    .display-name.verified::after {
+        content: "Pemula";
+        margin-left: 8px;
+        padding: 3px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid #ef4444;
+        border-radius: 8px;
+        text-transform: uppercase;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+        animation: badgePulse 2s ease-in-out infinite;
+        will-change: box-shadow;
+    }
+
+    @keyframes badgePulse {
+        0%, 100% { 
+            box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+        }
+        50% { 
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
+        }
+    }
+
+    .tagline {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin-bottom: 24px;
+        font-style: italic;
+        font-family: 'Ubuntu Mono', monospace;
+    }
+
+    .api-description {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 28px;
+        padding: 0 10px;
+    }
+
+    .btn-docs {
+        display: inline-block;
+        padding: 14px 36px;
+        background: linear-gradient(135deg, var(--accent-primary), #0077c8);
+        color: white;
+        font-weight: 600;
+        font-size: 1.05rem;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        border: none;
+        box-shadow: 
+            0 4px 15px rgba(0, 149, 246, 0.4),
+            0 0 30px rgba(0, 149, 246, 0.2);
+        will-change: transform, box-shadow;
+    }
+
+    .btn-docs::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent);
+        transition: 0.5s;
+        z-index: -1;
+    }
+
+    .btn-docs:hover {
+        background: linear-gradient(135deg, #0077c8, var(--accent-primary));
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 
+            0 8px 25px rgba(0, 149, 246, 0.6),
+            0 0 50px rgba(0, 149, 246, 0.3);
+    }
+
+    .btn-docs:hover::before {
+        left: 100%;
+    }
+
+    .footer-note {
+        margin-top: 40px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    @media (max-width: 576px) {
+        .sidebar {
+            width: 280px;
+            transform: translate3d(-100%, 0, 0);
+        }
+        
+        .sidebar.show {
+            transform: translate3d(0, 0, 0);
+        }
+        
+        body.sidebar-open .content {
+            transform: translate3d(280px, 0, 0);
+        }
+        
+        body.sidebar-open header {
+            transform: translate3d(280px, 0, 0);
+        }
+        
+        .content {
+            transition: transform 0.4s ease;
+        }
+        
+        .profile-info {
+            padding: 30px 20px;
+        }
+        
+        .display-name {
+            font-size: 1.8rem;
+        }
+        
+        .about-content {
+            margin-top: 40px;
+            padding: 10px;
+        }
+
+        .profile-card {
+            animation: cardFloatMobile 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloatMobile {
+            0%, 100% { 
+                transform: translateY(0px);
+                box-shadow: 
+                    0 10px 30px var(--shadow-hard),
+                    0 0 40px rgba(0, 149, 246, 0.1);
+            }
+            50% { 
+                transform: translateY(-5px);
+                box-shadow: 
+                    0 15px 40px var(--shadow-hard),
+                    0 0 60px rgba(50, 205, 50, 0.15);
+            }
+        }
+        
+        .overlay {
+            display: block;
+        }
+    }
+    
+    @media (min-width: 577px) {
+        .overlay {
+            display: none;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <header>
+        <button class="toggle-btn" id="toggleSidebar" aria-label="Toggle Sidebar">&#9776;</button>
+        <h1 style="margin:0; font-size:1.2em; color: var(--text-primary);">BloodSpike API</h1>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">Menu</div>
+        <nav>
+            <a href="index.html" class="active" data-content="about">About</a>
+            <a href="endpoint.html" data-content="docs">Documentation</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <div class="about-content">
+            <div class="profile-card">
+                <div class="profile-info">
+                    <div class="avatar-frame animated-ring">
+                        <img src="https://files.catbox.moe/3zk1st.jpg" alt="avatar" class="avatar">
+                    </div>
+                    <h1 class="display-name verified">./ilham</h1>
+                    <p class="tagline">Creator of BloodSpike API</p>
+                    <p class="api-description">
+                        <strong>BloodSpike API</strong> is built for developers who need fast, reliable endpoints for automation and bot services.<br><br>
+                        Optimized for low latency, predictable responses, and scalable integrations.
+                    </p>
+                    <a href="endpoint.html" class="btn-docs">Buka Documentation ⤻</a>
+                </div>
+            </div>
+            <p class="footer-note">
+                © 2025 BloodSpike API - by ilham.<br>
+                Documentation available at /endpoint.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const body = document.body;
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const navLinks = document.querySelectorAll('.sidebar nav a');
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('sidebar-open');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        });
+
+        overlay.addEventListener('click', () => {
+            body.classList.remove('sidebar-open');
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                body.classList.remove('sidebar-open');
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        });
+
+        // Add mouse move effect for card
+        document.querySelector('.profile-card').addEventListener('mousemove', function(e) {
+            const card = this;
+            const cardRect = card.getBoundingClientRect();
+            const x = e.clientX - cardRect.left;
+            const y = e.clientY - cardRect.top;
+            
+            const centerX = cardRect.width / 2;
+            const centerY = cardRect.height / 2;
+            
+            const rotateY = ((x - centerX) / centerX) * 2;
+            const rotateX = ((centerY - y) / centerY) * 2;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        });
+
+        document.querySelector('.profile-card').addEventListener('mouseleave', function() {
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    </script>
+</body>
+</html>

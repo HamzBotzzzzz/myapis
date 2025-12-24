@@ -1,0 +1,683 @@
+{
+  "name": "IYAH API Documentation",
+  "version": "v2.0.0",
+  "creator": "Ilhammmmm",
+  "github": "https://github.com/iyayn-ajah",
+  "telegram": "https://t.me/hamzisheregng",
+  "categories": [
+    {
+      "name": "Overview",
+      "type": "special",
+      "items": [
+        {
+          "name": "Live API Overview",
+          "path": "/overview",
+          "desc": "API status and system information",
+          "status": "ready",
+          "meta": {
+            "execution": "sync",
+            "source": "runtime",
+            "dashboard": true
+          },
+          "response_example": {
+            "status": "live",
+            "total_endpoints": 25,
+            "active_endpoints": 24,
+            "version": "v2.0.0",
+            "uptime": "99.8%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Artificial Intelligence",
+      "type": "regular",
+      "items": [
+        {
+          "name": "grok",
+          "path": "/api/ai/grok",
+          "desc": "Chat with AI model",
+          "status": "ready",
+          "params": {
+            "text": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "grok 3"
+          }
+        },
+        {
+          "name": "perplexity",
+          "path": "/api/ai/perplexity",
+          "desc": "Chat with AI model",
+          "status": "ready",
+          "params": {
+            "q": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "perplexity"
+          }
+        },
+        {
+          "name": "turboseek",
+          "path": "/api/ai/turboseek",
+          "desc": "Chat with AI model",
+          "status": "ready",
+          "params": {
+            "q": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "turboseek"
+          }
+        },
+        {
+          "name": "copilot Ai",
+          "path": "/api/ai/copilot",
+          "desc": "Chat with AI model",
+          "status": "ready",
+          "params": {
+            "prompt": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "Microsoft copilot"
+          }
+        },
+        {
+          "name": "webpilot Ai",
+          "path": "/api/ai/webpilot",
+          "desc": "Chat with AI model",
+          "status": "ready",
+          "params": {
+            "text": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "webpilot"
+          }
+        },
+        {
+          "name": "grokV2",
+          "path": "/api/ai/grokV2",
+          "desc": "Advanced AI chat with multiple models",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "text": "Required",
+            "model": "Optional",
+            "session_id": "Optional"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "selected-model",
+            "session_id": "session-123"
+          }
+        },
+        {
+          "name": "grokJailbreak",
+          "path": "/api/ai/grokJailbreak",
+          "desc": "AI chat with jailbreak capability",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "text": "Required",
+            "model": "Optional",
+            "session_id": "Optional"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "selected-model",
+            "session_id": "session-123"
+          }
+        },
+        {
+          "name": "unlimitedai",
+          "path": "/api/ai/unlimitedai",
+          "desc": "AI chat with session support",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "text": "Required",
+            "session_id": "Optional"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "UnlimitedAI",
+            "session_id": "session-123"
+          }
+        },
+        {
+          "name": "ciciai",
+          "path": "/api/ai/ciciai",
+          "desc": "Chat with Ciciai model",
+          "status": "ready",
+          "params": {
+            "text": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": "Response from AI",
+            "model": "cici/Dola"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Download",
+      "type": "regular",
+      "items": [
+        {
+          "name": "All In One Downloader",
+          "path": "/api/download/aio",
+          "desc": "ALL IN ONE DOWNLOAD",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "result": {
+              "url": "https://vm.tiktok.com",
+              "type": "image"
+            }
+          }
+        },
+        {
+          "name": "Instagram Downloader",
+          "path": "/api/download/instagram",
+          "desc": "Download Instagram media",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "result": {
+              "url": "https://example.com/media.jpg",
+              "type": "image"
+            }
+          }
+        },
+        {
+          "name": "Tiktok Downloader",
+          "path": "/api/download/tiktok",
+          "desc": "Download TikTok video without watermark",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": {
+              "no_watermark": "https://example.com/video.mp4"
+            }
+          }
+        },
+        {
+          "name": "Spotify Downloader",
+          "path": "/api/download/spotify",
+          "desc": "Download Spotify audio",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": {
+              "no_watermark": "https://Spotify.com"
+            }
+          }
+        },
+        {
+          "name": "pinterest Downloader",
+          "path": "/api/download/pinterest",
+          "desc": "Download Pinterest image",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "result": {
+              "no_watermark": "https://pin.it/38o9rJMRF"
+            }
+          }
+        },
+        {
+          "name": "Tiktok Search",
+          "path": "/api/download/search/tiktok",
+          "desc": "Search TikTok videos",
+          "status": "ready",
+          "params": {
+            "q": "Required",
+            "count": "Optional",
+            "page": "Optional"
+          },
+          "response_example": {
+            "status": true,
+            "videos": [
+              {
+                "id": "video_id",
+                "title": "Video Title",
+                "download_url": "https://example.com/video.mp4"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tools",
+      "type": "regular",
+      "items": [
+        {
+          "name": "Reactch",
+          "path": "/api/tools/reactch",
+          "desc": "React to WhatsApp channel",
+          "status": "ready",
+          "params": {
+            "link": "Required",
+            "emojis": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "message": "Reaction process started"
+          }
+        },
+        {
+          "name": "REMOVE BACKGROUND",
+          "path": "/api/tools/removebg",
+          "desc": "Remove image background",
+          "status": "ready",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "result": "https://example.com/processed.png"
+          }
+        },
+        {
+          "name": "👑 REMOVE CLOTHES (SYNC)",
+          "path": "/api/tools/remove-clothes",
+          "desc": "Remove clothes sync processing",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "url": "Required",
+            "apikey": "Optional"
+          },
+          "response_example": {
+            "success": true,
+            "result": "https://example.com/processed.webp"
+          }
+        },
+        {
+          "name": "CHECK LIMIT STATUS",
+          "path": "/api/tools/remove-clothes/limit-status",
+          "desc": "Check daily usage limit",
+          "status": "ready",
+          "method": "GET",
+          "response_example": {
+            "used": 3,
+            "limit": 10,
+            "remaining": 7
+          }
+        },
+        {
+          "name": "RESET LIMITS (ADMIN)",
+          "path": "/api/tools/remove-clothes/reset-limits",
+          "desc": "Reset all limits (owner only)",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "apikey": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "message": "Limits reset"
+          }
+        },
+        {
+          "name": "Humanizer ( bypass ai )",
+          "path": "/api/tools/bypassai",
+          "desc": "Humanize Text Ai",
+          "status": "ready",
+          "params": {
+            "text": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "text": "Humanity Ai"
+          }
+        },
+        {
+          "name": "SSWEB",
+          "path": "/api/tools/ssweb",
+          "desc": "Screenshot web",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "url": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "message": "Limits reset"
+          }
+        },
+        {
+  "name": "Text to Speech Converter",
+  "path": "/api/tools/text-to-speech",
+  "desc": "Convert text to speech audio with multiple voice options",
+  "status": "ready",
+  "method": "GET",
+  "params": {
+    "text": "Required - Text to convert to speech",
+    "voice": "Optional - Voice selection (default: 'Dylan')"
+  },
+  "response_example": {
+    "success": true,
+    "data": {
+      "audio_url": "https://example.com/audio/speech.mp3",
+      "text": "Hello world",
+      "voice": "Dylan",
+      "voices_available": ["Dylan", "Sunny", "Jada", "Cherry", "Ethan", "Serena", "Chelsie"]
+    },
+    "endpoint": "/api/tools/text-to-speech",
+    "timestamp": "2024-01-01T12:00:00.000Z"
+  },
+  "error_example": {
+    "success": false,
+    "message": "Missing 'text' parameter. Please provide text to convert to speech.",
+    "timestamp": "2024-01-01T12:00:00.000Z",
+    "example": "/api/tools/text-to-speech?text=Hello world&voice=Dylan"
+  }
+}
+      ]
+    },
+    {
+      "name": "Profile Lookup",
+      "type": "regular",
+      "items": [
+        {
+          "name": "Instagram Profile Info",
+          "path": "/api/stalk/instagram",
+          "desc": "Get Instagram profile info",
+          "status": "ready",
+          "params": {
+            "username": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "username": "instagram_user",
+            "followers": 10000,
+            "following": 500
+          }
+        },
+        {
+          "name": "Instagram Profile Info V2",
+          "path": "/api/stalk/igstalk",
+          "desc": "Get Instagram profile info",
+          "status": "error",
+          "params": {
+            "username": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "username": "instagram_user",
+            "followers": 10000,
+            "following": 500
+          }
+        },
+        {
+          "name": "Tiktok Profile Info",
+          "path": "/api/stalk/tiktok",
+          "desc": "Get TikTok profile info",
+          "status": "ready",
+          "params": {
+            "username": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "username": "tiktok_user",
+            "followers": 50000,
+            "following": 200
+          }
+        },
+        {
+          "name": "Twitter( X ) Profile Info",
+          "path": "/api/stalk/twitter",
+          "desc": "Get twitter profile info",
+          "status": "ready",
+          "params": {
+            "username": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "username": "twitter_user",
+            "followers": 50000,
+            "following": 200
+          }
+        }
+      ]
+    },
+    {
+      "name": "Uploader",
+      "type": "regular",
+      "items": [
+        {
+          "name": "Top4Top Uploader",
+          "path": "/api/uploader/top4top",
+          "desc": "Upload file to Top4Top",
+          "status": "ready",
+          "method": "POST",
+          "params": {
+            "file": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "result": {
+              "url": "https://example.com/uploaded_file.jpg"
+            }
+          }
+        },
+        {
+          "name": "catbox Uploader",
+          "path": "/api/uploader/catbox",
+          "desc": "Upload file to catbox",
+          "status": "ready",
+          "method": "POST",
+          "params": {
+            "file": "Required"
+          },
+          "response_example": {
+            "success": true,
+            "result": {
+              "url": "https://example.com/uploaded_file.jpg"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Random",
+      "type": "regular",
+      "items": [
+        {
+          "name": "BlueArchive Random Image",
+          "path": "/api/random-image/BlueArchive",
+          "desc": "Get random BlueArchive image",
+          "status": "ready",
+          "params": {
+            "q": "Required"
+          },
+          "response_example": {
+            "example": "api/random-image/BlueArchive?q=Eimi",
+            "image_url": "https://images.dotgg.gg/bluearchive/characters/portrait/10001.webp"
+          }
+        },
+        {
+          "name": "Random Album",
+          "path": "/api/random-image/asiantolick",
+          "desc": "Get random album from AsianTolick",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "count": "Optional"
+          },
+          "response_example": {
+            "success": true,
+            "data": [
+              {
+                "title": "[Korean] Beautiful Girl",
+                "totalPics": "25",
+                "images": [
+                  "https://asiantolick.com/upload/1.jpg",
+                  "https://asiantolick.com/upload/2.jpg"
+                ],
+                "url": "https://asiantolick.com/post/12345"
+              }
+            ],
+            "timestamp": "2024-01-01T12:00:00.000Z"
+          }
+        },
+        {
+          "name": "Search Albums",
+          "path": "/api/random-image/search",
+          "desc": "Search albums on AsianTolick",
+          "status": "ready",
+          "method": "GET",
+          "params": {
+            "q": "Required",
+            "limit": "Optional"
+          },
+          "response_example": {
+            "success": true,
+            "query": "korean",
+            "results": [
+              {
+                "title": "[Korean] Cute Student",
+                "totalImages": "30",
+                "cover": "https://asiantolick.com/upload/cover.jpg",
+                "url": "https://asiantolick.com/post/123"
+              }
+            ],
+            "total": 15,
+            "limit": 5,
+            "timestamp": "2024-01-01T12:00:00.000Z"
+          }
+        },
+        {
+          "name": "Anime Search",
+          "path": "/api/anime/search",
+          "desc": "Search Anime",
+          "status": "ready",
+          "params": {
+            "q": "Required"
+          },
+          "response_example": {
+            "example": "api/anime/search?q=naruto"
+          }
+        },
+        {
+          "name": "Anime Stream",
+          "path": "/api/anime/stream",
+          "desc": "Stream anime",
+          "status": "ready",
+          "params": {
+            "id": "Required",
+            "epsid": "Required",
+            "quality": "Optional"
+          },
+          "response_example": {
+            "example": "/api/anime/stream?id=123&epsid=456&quality=HD"
+          }
+        },
+        {
+    "name": "Random Image from Anhmoe",
+    "path": "/api/random-image/anhmoe",
+    "desc": "Get random image from Anhmoe website",
+    "method": "GET",
+    "status": "ready",
+    "params": {},
+    "response_example": {
+      "success": true,
+      "data": {
+        "image": "https://example.com/image.jpg",
+        "title": "Cute Cat",
+        "category": "sfw",
+        "type": "image",
+        "uploadBy": "User123",
+        "uploaded": "2 hours ago"
+      }
+    }
+  },
+  {
+    "name": "Random Image Search",
+    "path": "/api/random-image/search",
+    "desc": "Search and get random image based on keyword",
+    "method": "GET",
+    "status": "ready",
+    "params": {
+      "q": "Required - Search keyword",
+      "category": "Optional - Filter by category (sfw, nsfw, etc)"
+    },
+    "response_example": {
+      "success": true,
+      "data": {
+        "image": "https://example.com/search-result.jpg",
+        "title": "Anime Girl",
+        "type": "image",
+        "uploadBy": "OtakuFan",
+        "uploaded": "1 day ago",
+        "searchKeyword": "anime",
+        "category": "all"
+      }
+    }
+  }
+      ]
+    },
+    {
+      "name": "Text 2 Image",
+      "type": "regular",
+      "items": [
+        {
+          "name": "Text to Image",
+          "path": "/api/tools/ttsim",
+          "desc": "Generate image from text",
+          "status": "ready",
+          "params": {
+            "text": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "image_url": "https://example.com/generated_image.png"
+          }
+        },
+        {
+          "name": "To anime?",
+          "path": "/api/tools/toanime",
+          "desc": "Generate image style anime",
+          "status": "ready",
+          "params": {
+            "prompt": "Required"
+          },
+          "response_example": {
+            "status": true,
+            "image_url": "https://example.com/generated_image.png"
+          }
+        }
+      ]
+    }
+  ]
+}

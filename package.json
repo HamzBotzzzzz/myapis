@@ -1,0 +1,29 @@
+{
+  "name": "Bloodspike-Api",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "simple api",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google/genai": "^0.13.0",
+    "axios": "^1.10.0",
+    "cheerio": "github:iyayn-ajah/cheerio",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "file-type": "^16.5.3",
+    "form-data": "^4.0.0",
+    "formdata-node": "^6.0.3",
+    "jimp": "^1.6.0",
+    "jsdom": "^20.0.0",
+    "lowdb": "^7.0.1",
+    "mime-types": "^2.1.35",
+    "multer": "^2.0.2",
+    "node-fetch": "^2.6.9",
+    "path": "^0.12.7",
+    "uuid": "^13.0.0"
+  }
+}
