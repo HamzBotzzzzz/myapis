@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const multer = require('multer');
 require('dotenv').config();
 const fs = require('fs');
 const { LowSync } = require('lowdb');
